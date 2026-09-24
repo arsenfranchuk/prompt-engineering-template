@@ -1,21 +1,25 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.routers import items
+from app.routers import auth, budgets, categories, dashboard, transactions
 
-app = FastAPI(title="App Backend", version="0.1.0")
+app = FastAPI(title="Personal Budget Planner API", version="1.0.0")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5174"],
+    allow_origins=["http://localhost:5174", "http://127.0.0.1:5174"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-app.include_router(items.router, prefix="/api")
+app.include_router(auth.router, prefix="/api")
+app.include_router(categories.router, prefix="/api")
+app.include_router(transactions.router, prefix="/api")
+app.include_router(budgets.router, prefix="/api")
+app.include_router(dashboard.router, prefix="/api")
 
 
 @app.get("/health")
 def health() -> dict[str, str]:
-    return {"status": "ok"}
+    return {"status": "ok", "app": "personal-budget-planner"}

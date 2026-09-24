@@ -1,0 +1,24 @@
+[
+  {
+    "type": "income",
+    "amount": 213123123.0,
+    "category_id": "018fbba7-ed18-4dc2-beb1-ab064057484a",
+    "date": "2026-09-24",
+    "description": "asdfasdfasd",
+    "id": "ad54d138-97d0-40db-9e15-84cf76bb00aa",
+    "user_id": "1b8549f2-ebcd-4c31-b6d9-944510f3dcaf",
+    "created_at": "2026-09-24T18:03:07.796281Z",
+    "updated_at": "2026-09-24T18:03:07.796281Z"
+  },
+  {
+    "type": "income",
+    "amount": 123.0,
+    "category_id": "9cd4c1c3-4bcc-4e9d-9f90-3728d46e4402",
+    "date": "2026-09-24",
+    "description": "\u0444\u0456\u0432\u0430\u0434\u0440\u043e\u0448\u043b",
+    "id": "85f24ef5-8945-4899-b557-a1fd9a24c40f",
+    "user_id": "af02a136-dd44-4e99-b4c0-cd9286e8ee3c",
+    "created_at": "2026-09-24T18:19:25.498059Z",
+    "updated_at": "2026-09-24T18:19:25.498059Z"
+  }
+]

@@ -1,0 +1,20 @@
+[
+  {
+    "id": "1b8549f2-ebcd-4c31-b6d9-944510f3dcaf",
+    "username": "alex_vanek",
+    "email": "giwetez@ogzmail.com",
+    "password_hash": "1977a988fe487809c30491e59e325b5727f9a1152b2af3fb3094025952e475b6",
+    "salt": "21db6b15b365ae01498509ff8ac8a1c1",
+    "created_at": "2026-09-24T18:02:52.436316Z",
+    "updated_at": "2026-09-24T18:02:52.436316Z"
+  },
+  {
+    "id": "af02a136-dd44-4e99-b4c0-cd9286e8ee3c",
+    "username": "\u0444\u0434\u043b\u044b\u0432\u043e\u044b\u0444\u0449\u0434\u043e\u0436\u0448\u043b\u0430\u0440\u0448\u0449\u0444\u0430\u0440\u0449\u0448\u0436",
+    "email": "arsenfrancuk1@gmail.com",
+    "password_hash": "cbb2c4335bdd82294a00d33f585fb39f0ac6565f58a4bc97afc3636b76d06a06",
+    "salt": "e0c9281e877320c1eebaf4c25f54b3b1",
+    "created_at": "2026-09-24T18:19:13.123829Z",
+    "updated_at": "2026-09-24T18:19:13.123829Z"
+  }
+]

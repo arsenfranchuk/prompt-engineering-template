@@ -1,8 +1,10 @@
 # Python / uv
 backend/.venv/
+.venv/
 backend/__pycache__/
 **/__pycache__/
 *.py[cod]
+.pytest_cache/
 
 # Node
 frontend/node_modules/
@@ -11,6 +13,10 @@ frontend/dist/
 # Env
 .env
 frontend/.env
+*.local
+
+# Claude & Antigravity
+.claude/
 
 # IDE
 .idea/
@@ -18,3 +24,4 @@ frontend/.env
 # OS
 .DS_Store
 Thumbs.db
+
