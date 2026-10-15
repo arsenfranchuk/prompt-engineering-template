@@ -2,225 +2,113 @@
   {
     "name": "Salary",
     "type": "income",
-    "id": "018fbba7-ed18-4dc2-beb1-ab064057484a",
-    "user_id": "1b8549f2-ebcd-4c31-b6d9-944510f3dcaf",
+    "id": "44419d18-e0ed-4e77-b5de-bf79d47c0196",
+    "user_id": "a08421b1-f7c0-4e51-b5a6-cabed402011e",
     "is_default": true,
-    "created_at": "2026-09-24T18:02:52.437323Z"
+    "created_at": "2026-10-15T16:12:30.298339Z"
   },
   {
     "name": "Freelance & Side Gigs",
     "type": "income",
-    "id": "dc967608-5f0a-465a-81f7-a33cdde4c374",
-    "user_id": "1b8549f2-ebcd-4c31-b6d9-944510f3dcaf",
+    "id": "149d74af-e900-4201-8972-28febfe9cfc4",
+    "user_id": "a08421b1-f7c0-4e51-b5a6-cabed402011e",
     "is_default": true,
-    "created_at": "2026-09-24T18:02:52.437323Z"
+    "created_at": "2026-10-15T16:12:30.298339Z"
   },
   {
     "name": "Investments & Dividends",
     "type": "income",
-    "id": "5da6493c-aff5-4ba7-977b-9104a69fbaa0",
-    "user_id": "1b8549f2-ebcd-4c31-b6d9-944510f3dcaf",
+    "id": "38bb09d8-2087-4105-bf1b-be1033be33b0",
+    "user_id": "a08421b1-f7c0-4e51-b5a6-cabed402011e",
     "is_default": true,
-    "created_at": "2026-09-24T18:02:52.437323Z"
+    "created_at": "2026-10-15T16:12:30.298339Z"
   },
   {
     "name": "Gifts & Grants",
     "type": "income",
-    "id": "33767199-c92d-44d5-920d-1bb2acd7ba07",
-    "user_id": "1b8549f2-ebcd-4c31-b6d9-944510f3dcaf",
+    "id": "209b0f88-8358-45c8-8d90-9bafd021f8f5",
+    "user_id": "a08421b1-f7c0-4e51-b5a6-cabed402011e",
     "is_default": true,
-    "created_at": "2026-09-24T18:02:52.437323Z"
+    "created_at": "2026-10-15T16:12:30.298339Z"
   },
   {
     "name": "Other Income",
     "type": "income",
-    "id": "70fd12c1-fedd-42a7-aee4-d559381d56ff",
-    "user_id": "1b8549f2-ebcd-4c31-b6d9-944510f3dcaf",
+    "id": "b07d05cc-1e68-4c5a-a0c8-4f9629c98a51",
+    "user_id": "a08421b1-f7c0-4e51-b5a6-cabed402011e",
     "is_default": true,
-    "created_at": "2026-09-24T18:02:52.437323Z"
+    "created_at": "2026-10-15T16:12:30.298339Z"
   },
   {
     "name": "Food & Groceries",
     "type": "expense",
-    "id": "9dfe4fd1-e10d-4c46-a1f6-f8a43424935b",
-    "user_id": "1b8549f2-ebcd-4c31-b6d9-944510f3dcaf",
+    "id": "137d1bad-e5f9-4567-87b2-4d0dababa7db",
+    "user_id": "a08421b1-f7c0-4e51-b5a6-cabed402011e",
     "is_default": true,
-    "created_at": "2026-09-24T18:02:52.437323Z"
+    "created_at": "2026-10-15T16:12:30.298339Z"
   },
   {
     "name": "Housing & Rent",
     "type": "expense",
-    "id": "ad978ceb-68a2-4cfa-ae47-96a39a74eecf",
-    "user_id": "1b8549f2-ebcd-4c31-b6d9-944510f3dcaf",
+    "id": "d844b079-7994-4119-84f4-16f89bdfbfd8",
+    "user_id": "a08421b1-f7c0-4e51-b5a6-cabed402011e",
     "is_default": true,
-    "created_at": "2026-09-24T18:02:52.437323Z"
+    "created_at": "2026-10-15T16:12:30.298339Z"
   },
   {
     "name": "Utilities & Bills",
     "type": "expense",
-    "id": "4d72aff1-b645-416c-910f-8bb4b71b05a7",
-    "user_id": "1b8549f2-ebcd-4c31-b6d9-944510f3dcaf",
+    "id": "da02140e-92f0-40ae-9d1d-821ecd32ed9a",
+    "user_id": "a08421b1-f7c0-4e51-b5a6-cabed402011e",
     "is_default": true,
-    "created_at": "2026-09-24T18:02:52.437323Z"
+    "created_at": "2026-10-15T16:12:30.298339Z"
   },
   {
     "name": "Transportation",
     "type": "expense",
-    "id": "30b95412-5b82-440c-9602-7145444eb6ae",
-    "user_id": "1b8549f2-ebcd-4c31-b6d9-944510f3dcaf",
+    "id": "a87dac42-dfe0-40ee-917d-88ae42c1b5b8",
+    "user_id": "a08421b1-f7c0-4e51-b5a6-cabed402011e",
     "is_default": true,
-    "created_at": "2026-09-24T18:02:52.437323Z"
+    "created_at": "2026-10-15T16:12:30.298339Z"
   },
   {
     "name": "Entertainment & Leisure",
     "type": "expense",
-    "id": "55d40f69-2583-4a80-8643-992fdbe43255",
-    "user_id": "1b8549f2-ebcd-4c31-b6d9-944510f3dcaf",
+    "id": "fabef04f-2dc1-4e21-a519-0f1211b111c9",
+    "user_id": "a08421b1-f7c0-4e51-b5a6-cabed402011e",
     "is_default": true,
-    "created_at": "2026-09-24T18:02:52.437323Z"
+    "created_at": "2026-10-15T16:12:30.298339Z"
   },
   {
     "name": "Shopping & Personal",
     "type": "expense",
-    "id": "67fcfa84-6de7-4ac6-867a-c0ebb96e1966",
-    "user_id": "1b8549f2-ebcd-4c31-b6d9-944510f3dcaf",
+    "id": "bc6ac922-99f4-48e1-bffe-c585bd26aa4e",
+    "user_id": "a08421b1-f7c0-4e51-b5a6-cabed402011e",
     "is_default": true,
-    "created_at": "2026-09-24T18:02:52.437323Z"
+    "created_at": "2026-10-15T16:12:30.298339Z"
   },
   {
     "name": "Healthcare & Medical",
     "type": "expense",
-    "id": "8693fbef-11bb-4cfc-bc45-9434d9953cf3",
-    "user_id": "1b8549f2-ebcd-4c31-b6d9-944510f3dcaf",
+    "id": "51fb5ea7-1b70-419a-8184-8026fbf8372c",
+    "user_id": "a08421b1-f7c0-4e51-b5a6-cabed402011e",
     "is_default": true,
-    "created_at": "2026-09-24T18:02:52.437323Z"
+    "created_at": "2026-10-15T16:12:30.298339Z"
   },
   {
     "name": "Education & Courses",
     "type": "expense",
-    "id": "a2326d15-c8a4-474b-85cc-2939a2f057db",
-    "user_id": "1b8549f2-ebcd-4c31-b6d9-944510f3dcaf",
+    "id": "3a8effaf-ccab-4f14-b53d-b2b68cc306a2",
+    "user_id": "a08421b1-f7c0-4e51-b5a6-cabed402011e",
     "is_default": true,
-    "created_at": "2026-09-24T18:02:52.437323Z"
+    "created_at": "2026-10-15T16:12:30.298339Z"
   },
   {
     "name": "Other Expenses",
     "type": "expense",
-    "id": "82123a42-95bf-40ba-bc64-2937eebcf05a",
-    "user_id": "1b8549f2-ebcd-4c31-b6d9-944510f3dcaf",
+    "id": "35cd7634-c0aa-4994-937d-66c48a10aee9",
+    "user_id": "a08421b1-f7c0-4e51-b5a6-cabed402011e",
     "is_default": true,
-    "created_at": "2026-09-24T18:02:52.437323Z"
-  },
-  {
-    "name": "Salary",
-    "type": "income",
-    "id": "9cd4c1c3-4bcc-4e9d-9f90-3728d46e4402",
-    "user_id": "af02a136-dd44-4e99-b4c0-cd9286e8ee3c",
-    "is_default": true,
-    "created_at": "2026-09-24T18:19:13.125831Z"
-  },
-  {
-    "name": "Freelance & Side Gigs",
-    "type": "income",
-    "id": "a120574b-3b20-477a-89c3-2c2de239eb1d",
-    "user_id": "af02a136-dd44-4e99-b4c0-cd9286e8ee3c",
-    "is_default": true,
-    "created_at": "2026-09-24T18:19:13.125831Z"
-  },
-  {
-    "name": "Investments & Dividends",
-    "type": "income",
-    "id": "9ca90ef8-fb00-42db-8a46-094c75d9d04a",
-    "user_id": "af02a136-dd44-4e99-b4c0-cd9286e8ee3c",
-    "is_default": true,
-    "created_at": "2026-09-24T18:19:13.125831Z"
-  },
-  {
-    "name": "Gifts & Grants",
-    "type": "income",
-    "id": "d28c0955-3558-4d6e-bdc1-95093bddb0fc",
-    "user_id": "af02a136-dd44-4e99-b4c0-cd9286e8ee3c",
-    "is_default": true,
-    "created_at": "2026-09-24T18:19:13.125831Z"
-  },
-  {
-    "name": "Other Income",
-    "type": "income",
-    "id": "00066386-4309-463e-b14a-a5dc3aa35f3e",
-    "user_id": "af02a136-dd44-4e99-b4c0-cd9286e8ee3c",
-    "is_default": true,
-    "created_at": "2026-09-24T18:19:13.125831Z"
-  },
-  {
-    "name": "Food & Groceries",
-    "type": "expense",
-    "id": "0bff8dc5-5813-444b-8234-617229c8d30d",
-    "user_id": "af02a136-dd44-4e99-b4c0-cd9286e8ee3c",
-    "is_default": true,
-    "created_at": "2026-09-24T18:19:13.125831Z"
-  },
-  {
-    "name": "Housing & Rent",
-    "type": "expense",
-    "id": "e8f6eb36-b9df-4596-8266-1e0fbf5be40d",
-    "user_id": "af02a136-dd44-4e99-b4c0-cd9286e8ee3c",
-    "is_default": true,
-    "created_at": "2026-09-24T18:19:13.125831Z"
-  },
-  {
-    "name": "Utilities & Bills",
-    "type": "expense",
-    "id": "2e14feae-2aad-495a-8f80-c6affccdde04",
-    "user_id": "af02a136-dd44-4e99-b4c0-cd9286e8ee3c",
-    "is_default": true,
-    "created_at": "2026-09-24T18:19:13.125831Z"
-  },
-  {
-    "name": "Transportation",
-    "type": "expense",
-    "id": "57665b69-5b15-4be4-b439-baac47557a68",
-    "user_id": "af02a136-dd44-4e99-b4c0-cd9286e8ee3c",
-    "is_default": true,
-    "created_at": "2026-09-24T18:19:13.125831Z"
-  },
-  {
-    "name": "Entertainment & Leisure",
-    "type": "expense",
-    "id": "93d8c245-3b5b-4826-9539-414885339151",
-    "user_id": "af02a136-dd44-4e99-b4c0-cd9286e8ee3c",
-    "is_default": true,
-    "created_at": "2026-09-24T18:19:13.125831Z"
-  },
-  {
-    "name": "Shopping & Personal",
-    "type": "expense",
-    "id": "986c07f8-b032-4e54-93b9-f6173f3af3f0",
-    "user_id": "af02a136-dd44-4e99-b4c0-cd9286e8ee3c",
-    "is_default": true,
-    "created_at": "2026-09-24T18:19:13.125831Z"
-  },
-  {
-    "name": "Healthcare & Medical",
-    "type": "expense",
-    "id": "f4ca14b8-ca86-43ae-8ed6-2b8103b93cf4",
-    "user_id": "af02a136-dd44-4e99-b4c0-cd9286e8ee3c",
-    "is_default": true,
-    "created_at": "2026-09-24T18:19:13.125831Z"
-  },
-  {
-    "name": "Education & Courses",
-    "type": "expense",
-    "id": "3062f536-fc53-4db4-b313-773d602a4449",
-    "user_id": "af02a136-dd44-4e99-b4c0-cd9286e8ee3c",
-    "is_default": true,
-    "created_at": "2026-09-24T18:19:13.125831Z"
-  },
-  {
-    "name": "Other Expenses",
-    "type": "expense",
-    "id": "776bc438-5d8a-48be-94e4-2977200ea152",
-    "user_id": "af02a136-dd44-4e99-b4c0-cd9286e8ee3c",
-    "is_default": true,
-    "created_at": "2026-09-24T18:19:13.125831Z"
+    "created_at": "2026-10-15T16:12:30.298339Z"
   }
 ]

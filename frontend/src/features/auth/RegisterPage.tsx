@@ -1,44 +1,52 @@
-import { useState } from 'react'
-import { useNavigate, Link } from 'react-router-dom'
-import { useRegisterMutation } from '@/store/api/authApi'
-import { setCredentials } from '@/store/slices/authSlice'
-import { useAppDispatch } from '@/store/hooks'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
-import { AlertCircle, TrendingUp } from 'lucide-react'
+import { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
+import { useRegisterMutation } from '@/store/api/authApi';
+import { setCredentials } from '@/store/slices/authSlice';
+import { useAppDispatch } from '@/store/hooks';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import { AlertCircle, TrendingUp } from 'lucide-react';
 
 export function RegisterPage() {
-  const dispatch = useAppDispatch()
-  const navigate = useNavigate()
-  const [register, { isLoading }] = useRegisterMutation()
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const [register, { isLoading }] = useRegisterMutation();
 
-  const [username, setUsername] = useState('')
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [passwordConfirm, setPasswordConfirm] = useState('')
-  const [errors, setErrors] = useState<Record<string, string>>({})
-  const [serverError, setServerError] = useState<string | null>(null)
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [passwordConfirm, setPasswordConfirm] = useState('');
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [serverError, setServerError] = useState<string | null>(null);
 
   const validate = () => {
-    const errs: Record<string, string> = {}
-    if (username.trim().length < 3) errs.username = 'Username must be at least 3 characters'
-    if (!/^[\w.+\-]+@[\w\-]+\.[a-zA-Z]{2,}$/.test(email.trim())) errs.email = 'Please enter a valid email address'
-    if (password.length < 6) errs.password = 'Password must be at least 6 characters'
-    if (password !== passwordConfirm) errs.passwordConfirm = 'Passwords do not match'
-    return errs
-  }
+    const errs: Record<string, string> = {};
+    if (username.trim().length < 3) errs.username = 'Username must be at least 3 characters';
+    if (!/^[\w.+-]+@[\w-]+\.[a-zA-Z]{2,}$/.test(email.trim()))
+      errs.email = 'Please enter a valid email address';
+    if (password.length < 6) errs.password = 'Password must be at least 6 characters';
+    if (password !== passwordConfirm) errs.passwordConfirm = 'Passwords do not match';
+    return errs;
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setServerError(null)
-    const errs = validate()
+    e.preventDefault();
+    setServerError(null);
+    const errs = validate();
     if (Object.keys(errs).length > 0) {
-      setErrors(errs)
-      return
+      setErrors(errs);
+      return;
     }
-    setErrors({})
+    setErrors({});
 
     try {
       const result = await register({
@@ -46,13 +54,13 @@ export function RegisterPage() {
         email: email.trim().toLowerCase(),
         password,
         password_confirm: passwordConfirm,
-      }).unwrap()
-      dispatch(setCredentials({ token: result.token, user: result.user }))
-      navigate('/dashboard')
+      }).unwrap();
+      dispatch(setCredentials({ token: result.token, user: result.user }));
+      navigate('/dashboard');
     } catch (err: any) {
-      setServerError(err?.data?.detail ?? 'Registration failed. Please try again.')
+      setServerError(err?.data?.detail ?? 'Registration failed. Please try again.');
     }
-  }
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100 p-4">
@@ -122,7 +130,9 @@ export function RegisterPage() {
                   onChange={(e) => setPasswordConfirm(e.target.value)}
                   disabled={isLoading}
                 />
-                {errors.passwordConfirm && <p className="text-xs text-red-600">{errors.passwordConfirm}</p>}
+                {errors.passwordConfirm && (
+                  <p className="text-xs text-red-600">{errors.passwordConfirm}</p>
+                )}
               </div>
             </CardContent>
             <CardFooter className="flex flex-col gap-4">
@@ -140,5 +150,5 @@ export function RegisterPage() {
         </Card>
       </div>
     </div>
-  )
+  );
 }

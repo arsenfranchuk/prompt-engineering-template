@@ -1,8 +1,10 @@
-from datetime import datetime, timezone
+from datetime import UTC, datetime
+
 from app.models.budget import (
     BudgetCreate,
     BudgetInDb,
     BudgetResponse,
+    BudgetStatus,
     BudgetUpdate,
 )
 from app.repositories.budget_repository import BudgetRepository
@@ -31,16 +33,14 @@ class BudgetService:
 
     def _calculate_budget_metrics(
         self, budget: BudgetInDb, user_id: str
-    ) -> tuple[str, float, float, float, str]:
+    ) -> tuple[str, float, float, float, BudgetStatus]:
         category = self._cat_repo.get_by_id(budget.category_id)
         cat_name = category.name if category else "Unknown Category"
 
         all_txs = self._tx_repo.list_by_user(user_id)
         # Filter transactions matching category, type='expense', and period date range
         matching_expenses = [
-            t
-            for t in all_txs
-            if t.category_id == budget.category_id and t.type == "expense"
+            t for t in all_txs if t.category_id == budget.category_id and t.type == "expense"
         ]
 
         if budget.period == "monthly":
@@ -61,6 +61,7 @@ class BudgetService:
         else:
             percentage_used = 0.0
 
+        status: BudgetStatus
         if percentage_used < 80.0:
             status = "within"
         elif percentage_used <= 100.0:
@@ -132,9 +133,7 @@ class BudgetService:
         created = self._budget_repo.create(budget_in_db)
         return self._to_response(created, user_id)
 
-    def update_budget(
-        self, user_id: str, budget_id: str, payload: BudgetUpdate
-    ) -> BudgetResponse:
+    def update_budget(self, user_id: str, budget_id: str, payload: BudgetUpdate) -> BudgetResponse:
         budget = self._budget_repo.get_by_id(budget_id)
         if not budget or budget.user_id != user_id:
             raise BudgetNotFoundError(f"Budget {budget_id} not found")
@@ -156,7 +155,7 @@ class BudgetService:
         if payload.end_date is not None:
             budget.end_date = payload.end_date
 
-        budget.updated_at = datetime.now(timezone.utc)
+        budget.updated_at = datetime.now(UTC)
         updated = self._budget_repo.update(budget)
         return self._to_response(updated, user_id)
 

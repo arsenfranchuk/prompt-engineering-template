@@ -1,0 +1,23 @@
+# Cursor Rules - Personal Budget Planner
+
+You are pair programming on the Personal Budget Planner project (FastAPI + React 19 + TypeScript + uv).
+
+## Architecture & Conventions
+- **Backend Rules**: Read `.agents/rules/backend/` and `backend/AGENTS.md`.
+- **Frontend Rules**: Read `.agents/rules/frontend/` and `frontend/AGENTS.md`.
+## Path Filters (Globs)
+- **Backend Path Filter** (`backend/**/*`): triggers `.agents/rules/backend/` and `.cursor/rules/backend.mdc`.
+- **Frontend Path Filter** (`frontend/**/*`): triggers `.agents/rules/frontend/` and `.cursor/rules/frontend.mdc`.
+
+## Main References
+- **Skills**:
+  - Backend: `.agents/skills/backend-development/SKILL.md` (trigger: `backend/**/*`)
+  - Frontend: `.agents/skills/frontend-development/SKILL.md` (trigger: `frontend/**/*`)
+- **Quality Hooks**: `.agents/hooks.json` (with `path_filters` per subsystem)
+- **Main Guide**: `Claude.md` and `Agents.MD`.
+
+## Key Invariants
+1. Multi-tenancy: Every record belongs to `user_id`. Never trust client-sent `user_id`. Derive identity from JWT token.
+2. Layering: Routers -> Services -> Repositories -> Models/Utils. Never skip layers.
+3. Financial math: Positive amounts (`amount > 0`), 2-decimal precision, safe category deletion.
+4. Clean code: Always run formatters, linters, and type checkers with 0 errors/warnings.

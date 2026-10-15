@@ -20,9 +20,15 @@ router = APIRouter(prefix="/transactions", tags=["transactions"])
 def list_transactions(
     type: str | None = Query(default=None, description="Filter by type: income or expense"),
     category_id: str | None = Query(default=None, description="Filter by category ID"),
-    start_date: str | None = Query(default=None, description="Filter transactions from date (YYYY-MM-DD)"),
-    end_date: str | None = Query(default=None, description="Filter transactions to date (YYYY-MM-DD)"),
-    search: str | None = Query(default=None, description="Search keyword in description or category"),
+    start_date: str | None = Query(
+        default=None, description="Filter transactions from date (YYYY-MM-DD)"
+    ),
+    end_date: str | None = Query(
+        default=None, description="Filter transactions to date (YYYY-MM-DD)"
+    ),
+    search: str | None = Query(
+        default=None, description="Search keyword in description or category"
+    ),
     sort_by: str = Query(default="date", description="Sort by field: date or amount"),
     sort_order: str = Query(default="desc", description="Sort order: desc or asc"),
     current_user: UserInDb = Depends(get_current_user),

@@ -1,13 +1,22 @@
 import sys
+from datetime import UTC, datetime
 from pathlib import Path
+
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from fastapi.testclient import TestClient
+
 from app.main import app
 
 client = TestClient(app)
 
+
 def test_full_flow():
+    now = datetime.now(UTC)
+    cur_date_01 = f"{now.year:04d}-{now.month:02d}-01"
+    cur_date_05 = f"{now.year:04d}-{now.month:02d}-05"
+    cur_date_10 = f"{now.year:04d}-{now.month:02d}-10"
+
     print("Testing health...")
     r = client.get("/health")
     assert r.status_code == 200, r.text
@@ -20,7 +29,7 @@ def test_full_flow():
         "username": "alice_budget",
         "email": "alice@example.com",
         "password": "Password123!",
-        "password_confirm": "Password123!"
+        "password_confirm": "Password123!",
     }
     r = client.post("/api/auth/register", json=u1_reg)
     assert r.status_code == 201, r.text
@@ -51,60 +60,82 @@ def test_full_flow():
     print("Custom category created OK:", coffee_cat["name"])
 
     # 4. Add Income Transaction
-    r = client.post("/api/transactions", headers=headers1, json={
-        "type": "income",
-        "amount": 5000.0,
-        "category_id": salary_cat["id"],
-        "date": "2026-09-01",
-        "description": "Monthly Salary"
-    })
+    r = client.post(
+        "/api/transactions",
+        headers=headers1,
+        json={
+            "type": "income",
+            "amount": 5000.0,
+            "category_id": salary_cat["id"],
+            "date": cur_date_01,
+            "description": "Monthly Salary",
+        },
+    )
     assert r.status_code == 201
     tx_income = r.json()
     print("Income transaction OK:", tx_income["amount"])
 
     # 5. Add Expense Transactions
-    r = client.post("/api/transactions", headers=headers1, json={
-        "type": "expense",
-        "amount": 250.0,
-        "category_id": food_cat["id"],
-        "date": "2026-09-05",
-        "description": "Weekly grocery shopping"
-    })
+    r = client.post(
+        "/api/transactions",
+        headers=headers1,
+        json={
+            "type": "expense",
+            "amount": 250.0,
+            "category_id": food_cat["id"],
+            "date": cur_date_05,
+            "description": "Weekly grocery shopping",
+        },
+    )
     assert r.status_code == 201
 
-    r = client.post("/api/transactions", headers=headers1, json={
-        "type": "expense",
-        "amount": 50.0,
-        "category_id": coffee_cat["id"],
-        "date": "2026-09-10",
-        "description": "Espresso beans"
-    })
+    r = client.post(
+        "/api/transactions",
+        headers=headers1,
+        json={
+            "type": "expense",
+            "amount": 50.0,
+            "category_id": coffee_cat["id"],
+            "date": cur_date_10,
+            "description": "Espresso beans",
+        },
+    )
     assert r.status_code == 201
 
     # 6. Check Dashboard Summary
     r = client.get("/api/dashboard/summary?period=current_month", headers=headers1)
     assert r.status_code == 200
     dash = r.json()
-    assert dash["current_balance"] == 4700.0, f"Expected 4700.0 balance, got {dash['current_balance']}"
+    assert dash["current_balance"] == 4700.0, (
+        f"Expected 4700.0 balance, got {dash['current_balance']}"
+    )
     assert dash["period_income"] == 5000.0
     assert dash["period_expenses"] == 300.0
     assert dash["period_net"] == 4700.0
     print("Dashboard calculations OK! Balance:", dash["current_balance"])
 
     # 7. Create Budget for Food
-    r = client.post("/api/budgets", headers=headers1, json={
-        "category_id": food_cat["id"],
-        "planned_amount": 500.0,
-        "period": "monthly",
-        "start_date": "2026-09-01"
-    })
+    r = client.post(
+        "/api/budgets",
+        headers=headers1,
+        json={
+            "category_id": food_cat["id"],
+            "planned_amount": 500.0,
+            "period": "monthly",
+            "start_date": cur_date_01,
+        },
+    )
     assert r.status_code == 201
     budget_food = r.json()
-    assert budget_food["spent_amount"] == 250.0, f"Expected 250.0 spent, got {budget_food['spent_amount']}"
+    assert budget_food["spent_amount"] == 250.0, (
+        f"Expected 250.0 spent, got {budget_food['spent_amount']}"
+    )
     assert budget_food["remaining_amount"] == 250.0
     assert budget_food["percentage_used"] == 50.0
     assert budget_food["status"] == "within"
-    print("Budget metrics OK! Spent:", budget_food["spent_amount"], "Status:", budget_food["status"])
+    print(
+        "Budget metrics OK! Spent:", budget_food["spent_amount"], "Status:", budget_food["status"]
+    )
 
     # 8. Safe Category Deletion Test
     r = client.delete(f"/api/categories/{coffee_cat['id']}", headers=headers1)
@@ -116,7 +147,7 @@ def test_full_flow():
         "username": "bob_trader",
         "email": "bob@example.com",
         "password": "SecretPassword123!",
-        "password_confirm": "SecretPassword123!"
+        "password_confirm": "SecretPassword123!",
     }
     r = client.post("/api/auth/register", json=u2_reg)
     assert r.status_code == 201
@@ -139,6 +170,7 @@ def test_full_flow():
 
     print("Multi-user isolation test passed!")
     print("ALL BACKEND TESTS PASSED SUCCESSFULLY!")
+
 
 if __name__ == "__main__":
     test_full_flow()

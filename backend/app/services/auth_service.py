@@ -1,4 +1,5 @@
-from datetime import datetime, timezone
+from datetime import UTC, datetime
+
 from app.models.user import (
     AuthResponse,
     UserChangePassword,
@@ -104,7 +105,7 @@ class AuthService:
                 raise UserAlreadyExistsError("Email is already registered")
             user.email = payload.email
 
-        user.updated_at = datetime.now(timezone.utc)
+        user.updated_at = datetime.now(UTC)
         updated = self._user_repo.update(user)
         return UserResponse.from_db(updated)
 
@@ -119,5 +120,5 @@ class AuthService:
         new_hash, new_salt = hash_password(payload.new_password)
         user.password_hash = new_hash
         user.salt = new_salt
-        user.updated_at = datetime.now(timezone.utc)
+        user.updated_at = datetime.now(UTC)
         self._user_repo.update(user)

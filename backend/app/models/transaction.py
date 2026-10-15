@@ -1,12 +1,13 @@
-from datetime import datetime, timezone
 import re
+from datetime import UTC, datetime
 from typing import Literal
 from uuid import uuid4
+
 from pydantic import BaseModel, Field, field_validator
 
 
 def _utc_now() -> datetime:
-    return datetime.now(timezone.utc)
+    return datetime.now(UTC)
 
 
 DATE_REGEX = re.compile(r"^\d{4}-\d{2}-\d{2}$")

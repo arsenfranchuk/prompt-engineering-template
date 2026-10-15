@@ -13,8 +13,8 @@ from app.models.user import (
     UserUpdateProfile,
 )
 from app.services.auth_service import (
-    AuthService,
     AuthenticationError,
+    AuthService,
     UserAlreadyExistsError,
     UserNotFoundError,
 )

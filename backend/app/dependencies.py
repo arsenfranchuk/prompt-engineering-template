@@ -8,7 +8,7 @@ from app.repositories.budget_repository import BudgetRepository
 from app.repositories.category_repository import CategoryRepository
 from app.repositories.transaction_repository import TransactionRepository
 from app.repositories.user_repository import UserRepository
-from app.services.auth_service import AuthService, AuthenticationError
+from app.services.auth_service import AuthenticationError, AuthService
 from app.services.budget_service import BudgetService
 from app.services.category_service import CategoryService
 from app.services.dashboard_service import DashboardService

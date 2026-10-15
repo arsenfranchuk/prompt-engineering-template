@@ -1,11 +1,12 @@
-from datetime import datetime, timezone
 import re
+from datetime import UTC, datetime
 from uuid import uuid4
+
 from pydantic import BaseModel, Field, field_validator
 
 
 def _utc_now() -> datetime:
-    return datetime.now(timezone.utc)
+    return datetime.now(UTC)
 
 
 EMAIL_REGEX = re.compile(r"^[\w\.\+\-]+@[\w\-]+\.[a-zA-Z]{2,}$")

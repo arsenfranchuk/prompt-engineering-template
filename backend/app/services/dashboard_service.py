@@ -1,5 +1,5 @@
-from datetime import datetime, timezone
 import calendar
+from datetime import UTC, datetime
 
 from app.models.dashboard import (
     BudgetSummary,
@@ -30,7 +30,7 @@ class DashboardService:
         return {c.id: c.name for c in cats}
 
     def _get_period_bounds(self, period: str) -> tuple[str | None, str | None]:
-        now = datetime.now(timezone.utc)
+        now = datetime.now(UTC)
         year = now.year
         month = now.month
 
@@ -120,13 +120,18 @@ class DashboardService:
 
         # Active Budgets Summary
         user_budgets = self._budget_repo.list_by_user(user_id)
-        now = datetime.now(timezone.utc)
+        now = datetime.now(UTC)
         current_month_prefix = f"{now.year:04d}-{now.month:02d}"
         active_budgets = [
             b
             for b in user_budgets
             if b.start_date.startswith(current_month_prefix)
-            or (b.start_date <= f"{now.year:04d}-{now.month:02d}-{now.day:02d}" and (not b.end_date or b.end_date >= f"{now.year:04d}-{now.month:02d}-{now.day:02d}"))
+            or (
+                b.start_date <= f"{now.year:04d}-{now.month:02d}-{now.day:02d}"
+                and (
+                    not b.end_date or b.end_date >= f"{now.year:04d}-{now.month:02d}-{now.day:02d}"
+                )
+            )
         ]
 
         total_planned = round(sum(b.planned_amount for b in active_budgets), 2)

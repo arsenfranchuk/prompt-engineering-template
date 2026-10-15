@@ -1,76 +1,85 @@
-import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { useGetMeQuery, useLogoutMutation, useUpdateProfileMutation, useChangePasswordMutation } from '@/store/api/authApi'
-import { clearCredentials } from '@/store/slices/authSlice'
-import { useAppDispatch } from '@/store/hooks'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { AlertCircle } from 'lucide-react'
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import {
+  useGetMeQuery,
+  useLogoutMutation,
+  useUpdateProfileMutation,
+  useChangePasswordMutation,
+} from '@/store/api/authApi';
+import { clearCredentials } from '@/store/slices/authSlice';
+import { useAppDispatch } from '@/store/hooks';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { AlertCircle } from 'lucide-react';
 
 export function ProfilePage() {
-  const dispatch = useAppDispatch()
-  const navigate = useNavigate()
-  const { data: user, isLoading: isLoadingUser } = useGetMeQuery()
-  const [logout] = useLogoutMutation()
-  const [updateProfile, { isLoading: isLoadingProfile }] = useUpdateProfileMutation()
-  const [changePassword, { isLoading: isLoadingPassword }] = useChangePasswordMutation()
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const { data: user, isLoading: isLoadingUser } = useGetMeQuery();
+  const [logout] = useLogoutMutation();
+  const [updateProfile, { isLoading: isLoadingProfile }] = useUpdateProfileMutation();
+  const [changePassword, { isLoading: isLoadingPassword }] = useChangePasswordMutation();
 
-  const [editMode, setEditMode] = useState(false)
-  const [profileForm, setProfileForm] = useState({ username: '', email: '' })
-  const [passwordForm, setPasswordForm] = useState({ currentPassword: '', newPassword: '', newPasswordConfirm: '' })
-  const [profileError, setProfileError] = useState<string | null>(null)
-  const [passwordError, setPasswordError] = useState<string | null>(null)
-  const [successMessage, setSuccessMessage] = useState<string | null>(null)
+  const [editMode, setEditMode] = useState(false);
+  const [profileForm, setProfileForm] = useState({ username: '', email: '' });
+  const [passwordForm, setPasswordForm] = useState({
+    currentPassword: '',
+    newPassword: '',
+    newPasswordConfirm: '',
+  });
+  const [profileError, setProfileError] = useState<string | null>(null);
+  const [passwordError, setPasswordError] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
-  const [showPasswordSection, setShowPasswordSection] = useState(false)
+  const [showPasswordSection, setShowPasswordSection] = useState(false);
 
   // Initialize profile form when user loads
   useEffect(() => {
     if (user) {
-      setProfileForm({ username: user.username, email: user.email })
+      setProfileForm({ username: user.username, email: user.email });
     }
-  }, [user])
+  }, [user]);
 
   const handleProfileUpdate = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setProfileError(null)
-    setSuccessMessage(null)
+    e.preventDefault();
+    setProfileError(null);
+    setSuccessMessage(null);
 
     try {
       await updateProfile({
         username: profileForm.username.trim() || undefined,
         email: profileForm.email.trim().toLowerCase() || undefined,
-      }).unwrap()
-      setEditMode(false)
-      setSuccessMessage('Profile updated successfully')
+      }).unwrap();
+      setEditMode(false);
+      setSuccessMessage('Profile updated successfully');
     } catch (err: any) {
-      setProfileError(err?.data?.detail ?? 'Failed to update profile')
+      setProfileError(err?.data?.detail ?? 'Failed to update profile');
     }
-  }
+  };
 
   const handleChangePassword = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setPasswordError(null)
-    setSuccessMessage(null)
+    e.preventDefault();
+    setPasswordError(null);
+    setSuccessMessage(null);
 
     // Validate
     if (!passwordForm.currentPassword) {
-      setPasswordError('Current password is required')
-      return
+      setPasswordError('Current password is required');
+      return;
     }
     if (!passwordForm.newPassword) {
-      setPasswordError('New password is required')
-      return
+      setPasswordError('New password is required');
+      return;
     }
     if (passwordForm.newPassword.length < 6) {
-      setPasswordError('New password must be at least 6 characters')
-      return
+      setPasswordError('New password must be at least 6 characters');
+      return;
     }
     if (passwordForm.newPassword !== passwordForm.newPasswordConfirm) {
-      setPasswordError('New passwords do not match')
-      return
+      setPasswordError('New passwords do not match');
+      return;
     }
 
     try {
@@ -78,32 +87,32 @@ export function ProfilePage() {
         current_password: passwordForm.currentPassword,
         new_password: passwordForm.newPassword,
         new_password_confirm: passwordForm.newPasswordConfirm,
-      }).unwrap()
-      setPasswordForm({ currentPassword: '', newPassword: '', newPasswordConfirm: '' })
-      setShowPasswordSection(false)
-      setSuccessMessage('Password changed successfully')
+      }).unwrap();
+      setPasswordForm({ currentPassword: '', newPassword: '', newPasswordConfirm: '' });
+      setShowPasswordSection(false);
+      setSuccessMessage('Password changed successfully');
     } catch (err: any) {
-      setPasswordError(err?.data?.detail ?? 'Failed to change password')
+      setPasswordError(err?.data?.detail ?? 'Failed to change password');
     }
-  }
+  };
 
   const handleLogout = async () => {
     try {
-      await logout().unwrap()
-      dispatch(clearCredentials())
-      navigate('/login')
+      await logout().unwrap();
+      dispatch(clearCredentials());
+      navigate('/login');
     } catch {
-      dispatch(clearCredentials())
-      navigate('/login')
+      dispatch(clearCredentials());
+      navigate('/login');
     }
-  }
+  };
 
   if (isLoadingUser) {
     return (
       <div className="flex items-center justify-center h-64">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-500"></div>
       </div>
-    )
+    );
   }
 
   if (!user) {
@@ -114,7 +123,7 @@ export function ProfilePage() {
           Go to Login
         </Button>
       </div>
-    )
+    );
   }
 
   return (
@@ -168,15 +177,31 @@ export function ProfilePage() {
             <div className="pt-4 border-t flex gap-3">
               {editMode ? (
                 <>
-                  <Button onClick={handleProfileUpdate} disabled={isLoadingProfile} className="flex-1">
+                  <Button
+                    onClick={handleProfileUpdate}
+                    disabled={isLoadingProfile}
+                    className="flex-1"
+                  >
                     Save Changes
                   </Button>
-                  <Button variant="outline" onClick={() => { setEditMode(false); setProfileForm({ username: user.username, email: user.email }) }}>
+                  <Button
+                    variant="outline"
+                    onClick={() => {
+                      setEditMode(false);
+                      setProfileForm({ username: user.username, email: user.email });
+                    }}
+                  >
                     Cancel
                   </Button>
                 </>
               ) : (
-                <Button onClick={() => { setEditMode(true); setProfileError(null) }} className="flex-1">
+                <Button
+                  onClick={() => {
+                    setEditMode(true);
+                    setProfileError(null);
+                  }}
+                  className="flex-1"
+                >
                   Edit Profile
                 </Button>
               )}
@@ -212,7 +237,9 @@ export function ProfilePage() {
                   id="currentPassword"
                   type="password"
                   value={passwordForm.currentPassword}
-                  onChange={(e) => setPasswordForm({ ...passwordForm, currentPassword: e.target.value })}
+                  onChange={(e) =>
+                    setPasswordForm({ ...passwordForm, currentPassword: e.target.value })
+                  }
                   className="mt-1"
                 />
               </div>
@@ -222,7 +249,9 @@ export function ProfilePage() {
                   id="newPassword"
                   type="password"
                   value={passwordForm.newPassword}
-                  onChange={(e) => setPasswordForm({ ...passwordForm, newPassword: e.target.value })}
+                  onChange={(e) =>
+                    setPasswordForm({ ...passwordForm, newPassword: e.target.value })
+                  }
                   className="mt-1"
                 />
               </div>
@@ -232,7 +261,9 @@ export function ProfilePage() {
                   id="newPasswordConfirm"
                   type="password"
                   value={passwordForm.newPasswordConfirm}
-                  onChange={(e) => setPasswordForm({ ...passwordForm, newPasswordConfirm: e.target.value })}
+                  onChange={(e) =>
+                    setPasswordForm({ ...passwordForm, newPasswordConfirm: e.target.value })
+                  }
                   className="mt-1"
                 />
               </div>
@@ -265,7 +296,11 @@ export function ProfilePage() {
 
       {/* Logout */}
       <div className="pt-6 border-t">
-        <Button variant="outline" className="w-full text-red-600 hover:bg-red-50" onClick={handleLogout}>
+        <Button
+          variant="outline"
+          className="w-full text-red-600 hover:bg-red-50"
+          onClick={handleLogout}
+        >
           Log Out
         </Button>
       </div>
@@ -278,14 +313,18 @@ export function ProfilePage() {
         <CardContent className="space-y-3 text-sm">
           <div className="flex justify-between">
             <span className="text-slate-500">Account Created</span>
-            <span className="font-medium text-slate-800">{new Date(user.created_at).toLocaleDateString()}</span>
+            <span className="font-medium text-slate-800">
+              {new Date(user.created_at).toLocaleDateString()}
+            </span>
           </div>
           <div className="flex justify-between">
             <span className="text-slate-500">Last Updated</span>
-            <span className="font-medium text-slate-800">{new Date(user.created_at).toLocaleDateString()}</span>
+            <span className="font-medium text-slate-800">
+              {new Date(user.created_at).toLocaleDateString()}
+            </span>
           </div>
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }

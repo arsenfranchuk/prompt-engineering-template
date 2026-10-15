@@ -1,4 +1,5 @@
-from datetime import datetime, timezone
+from datetime import UTC, datetime
+
 from app.models.transaction import (
     TransactionCreate,
     TransactionInDb,
@@ -69,7 +70,9 @@ class TransactionService:
             # Default sort by date, secondary by created_at
             items = sorted(items, key=lambda t: (t.date, t.created_at), reverse=reverse)
 
-        return [TransactionResponse.from_db(t, cat_map.get(t.category_id, "Unknown")) for t in items]
+        return [
+            TransactionResponse.from_db(t, cat_map.get(t.category_id, "Unknown")) for t in items
+        ]
 
     def get_transaction(self, user_id: str, tx_id: str) -> TransactionResponse:
         tx = self._tx_repo.get_by_id(tx_id)
@@ -128,7 +131,7 @@ class TransactionService:
         if payload.description is not None:
             tx.description = payload.description
 
-        tx.updated_at = datetime.now(timezone.utc)
+        tx.updated_at = datetime.now(UTC)
         updated = self._tx_repo.update(tx)
         return TransactionResponse.from_db(updated, category.name)
 

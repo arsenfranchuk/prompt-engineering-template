@@ -1,0 +1,23 @@
+---
+description: Backend FastAPI rules, layered architecture, Pydantic v2, Ruff, Mypy, and Pytest.
+globs: "backend/**/*"
+alwaysApply: false
+---
+
+# Backend Rules (FastAPI + uv)
+
+Read dedicated rules under `.agents/rules/backend/`:
+- `.agents/rules/backend/architecture-and-layering.md`
+- `.agents/rules/backend/security-and-multitenancy.md`
+- `.agents/rules/backend/code-quality-and-testing.md`
+
+## Invariants
+1. 5-Layer architecture: Routers -> Services -> Repositories -> Models -> Utils.
+2. Multi-tenancy: Every record must have `user_id`. Never trust user input for `user_id`.
+3. Financial math: strictly positive amounts (`amount > 0`), 2-decimal rounding.
+4. Safe category deletion: reject deletion if referenced by transactions or budgets.
+5. Verification:
+   - `uv run ruff check .`
+   - `uv run ruff format --check .`
+   - `uv run mypy app`
+   - `uv run pytest`

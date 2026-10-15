@@ -1,4 +1,5 @@
 import json
+from collections.abc import Sequence
 from pathlib import Path
 from typing import TypeVar
 
@@ -17,7 +18,7 @@ def read_list_file(path: Path, model: type[T]) -> list[T]:
     return [model.model_validate(item) for item in raw]
 
 
-def write_list_file(path: Path, items: list[BaseModel]) -> None:
+def write_list_file(path: Path, items: Sequence[BaseModel]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     payload = [item.model_dump(mode="json") for item in items]
     path.write_text(json.dumps(payload, indent=2), encoding="utf-8")

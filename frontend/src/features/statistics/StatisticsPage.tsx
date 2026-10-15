@@ -1,38 +1,38 @@
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { useGetDashboardSummaryQuery } from '@/store/api/dashboardApi'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { TrendingUp, TrendingDown, PieChart, Wallet, ArrowRight, Loader2 } from 'lucide-react'
-import { formatCurrency, cn } from '@/lib/utils'
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useGetDashboardSummaryQuery } from '@/store/api/dashboardApi';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { TrendingUp, TrendingDown, PieChart, Wallet, ArrowRight, Loader2 } from 'lucide-react';
+import { formatCurrency, cn } from '@/lib/utils';
 
 const PERIOD_OPTIONS = [
   { value: 'current_month', label: 'This Month' },
   { value: 'previous_month', label: 'Last Month' },
   { value: 'current_year', label: 'This Year' },
   { value: 'all', label: 'All Time' },
-]
+];
 
 export function StatisticsPage() {
-  const navigate = useNavigate()
-  const [period, setPeriod] = useState<'current_month' | 'previous_month' | 'current_year' | 'all'>('current_month')
+  const navigate = useNavigate();
+  const [period, setPeriod] = useState<'current_month' | 'previous_month' | 'current_year' | 'all'>(
+    'current_month'
+  );
 
-  const { data, isLoading, isError } = useGetDashboardSummaryQuery(period)
+  const { data, isLoading, isError } = useGetDashboardSummaryQuery(period);
 
   if (isLoading) {
     return (
       <div className="flex items-center justify-center h-96">
         <Loader2 className="w-8 h-8 animate-spin text-emerald-500" />
       </div>
-    )
+    );
   }
 
   if (isError || !data) {
     return (
-      <div className="p-6 text-center text-red-600">
-        Failed to load statistics. Please refresh.
-      </div>
-    )
+      <div className="p-6 text-center text-red-600">Failed to load statistics. Please refresh.</div>
+    );
   }
 
   return (
@@ -47,12 +47,14 @@ export function StatisticsPage() {
           {PERIOD_OPTIONS.map((opt) => (
             <button
               key={opt.value}
-              onClick={() => setPeriod(opt.value as 'current_month' | 'previous_month' | 'current_year' | 'all')}
+              onClick={() =>
+                setPeriod(opt.value as 'current_month' | 'previous_month' | 'current_year' | 'all')
+              }
               className={cn(
                 'px-3 py-1.5 rounded-lg text-sm font-medium transition-colors',
                 period === opt.value
                   ? 'bg-emerald-500 text-white'
-                  : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50',
+                  : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50'
               )}
             >
               {opt.label}
@@ -68,7 +70,12 @@ export function StatisticsPage() {
             <div className="flex items-start justify-between">
               <div>
                 <p className="text-sm text-slate-500 font-medium">Current Balance</p>
-                <p className={cn('text-2xl font-bold mt-1', data.current_balance >= 0 ? 'text-slate-800' : 'text-red-600')}>
+                <p
+                  className={cn(
+                    'text-2xl font-bold mt-1',
+                    data.current_balance >= 0 ? 'text-slate-800' : 'text-red-600'
+                  )}
+                >
                   {formatCurrency(data.current_balance)}
                 </p>
               </div>
@@ -84,7 +91,9 @@ export function StatisticsPage() {
             <div className="flex items-start justify-between">
               <div>
                 <p className="text-sm text-slate-500 font-medium">Total Income</p>
-                <p className="text-2xl font-bold mt-1 text-emerald-600">{formatCurrency(data.period_income)}</p>
+                <p className="text-2xl font-bold mt-1 text-emerald-600">
+                  {formatCurrency(data.period_income)}
+                </p>
               </div>
               <div className="w-10 h-10 bg-emerald-50 rounded-lg flex items-center justify-center">
                 <TrendingUp className="w-5 h-5 text-emerald-600" />
@@ -98,7 +107,9 @@ export function StatisticsPage() {
             <div className="flex items-start justify-between">
               <div>
                 <p className="text-sm text-slate-500 font-medium">Total Expenses</p>
-                <p className="text-2xl font-bold mt-1 text-red-600">{formatCurrency(data.period_expenses)}</p>
+                <p className="text-2xl font-bold mt-1 text-red-600">
+                  {formatCurrency(data.period_expenses)}
+                </p>
               </div>
               <div className="w-10 h-10 bg-red-50 rounded-lg flex items-center justify-center">
                 <TrendingDown className="w-5 h-5 text-red-600" />
@@ -112,8 +123,15 @@ export function StatisticsPage() {
             <div className="flex items-start justify-between">
               <div>
                 <p className="text-sm text-slate-500 font-medium">Savings Rate</p>
-                <p className="text-2xl font-bold mt-1 text-slate-800">{data.savings_rate.toFixed(1)}%</p>
-                <p className={cn('text-xs mt-1', data.period_net >= 0 ? 'text-emerald-600' : 'text-red-600')}>
+                <p className="text-2xl font-bold mt-1 text-slate-800">
+                  {data.savings_rate.toFixed(1)}%
+                </p>
+                <p
+                  className={cn(
+                    'text-xs mt-1',
+                    data.period_net >= 0 ? 'text-emerald-600' : 'text-red-600'
+                  )}
+                >
                   Net {formatCurrency(data.period_net)}
                 </p>
               </div>
@@ -130,7 +148,12 @@ export function StatisticsPage() {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-3">
             <CardTitle className="text-base">Spending by Category</CardTitle>
-            <Button variant="ghost" size="sm" onClick={() => navigate('/budgets')} className="text-emerald-600 h-8">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => navigate('/budgets')}
+              className="text-emerald-600 h-8"
+            >
               Manage Budgets <ArrowRight className="w-4 h-4 ml-1" />
             </Button>
           </CardHeader>
@@ -211,21 +234,30 @@ export function StatisticsPage() {
                   <div className="relative h-2 bg-emerald-100 rounded-full overflow-hidden">
                     <div
                       className="absolute left-0 top-0 bottom-0 bg-emerald-500 rounded-full"
-                      style={{ width: `${Math.min((item.income / (Math.max(data.period_income, 1))) * 100, 100)}%` }}
+                      style={{
+                        width: `${Math.min((item.income / Math.max(data.period_income, 1)) * 100, 100)}%`,
+                      }}
                     />
                   </div>
                   {/* Expense Bar */}
                   <div className="relative h-2 bg-red-100 rounded-full overflow-hidden">
                     <div
                       className="absolute left-0 top-0 bottom-0 bg-red-500 rounded-full"
-                      style={{ width: `${Math.min((item.expense / (Math.max(data.period_expenses, 1))) * 100, 100)}%` }}
+                      style={{
+                        width: `${Math.min((item.expense / Math.max(data.period_expenses, 1)) * 100, 100)}%`,
+                      }}
                     />
                   </div>
                 </div>
                 <div className="w-32 text-xs text-right space-y-1">
                   <div className="text-emerald-600 font-medium">+{formatCurrency(item.income)}</div>
                   <div className="text-red-600 font-medium">-{formatCurrency(item.expense)}</div>
-                  <div className={cn('font-semibold', item.net >= 0 ? 'text-slate-700' : 'text-red-600')}>
+                  <div
+                    className={cn(
+                      'font-semibold',
+                      item.net >= 0 ? 'text-slate-700' : 'text-red-600'
+                    )}
+                  >
                     Net: {formatCurrency(item.net)}
                   </div>
                 </div>
@@ -235,5 +267,5 @@ export function StatisticsPage() {
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }

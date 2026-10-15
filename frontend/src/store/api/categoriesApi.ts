@@ -1,18 +1,18 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import type { RootState } from '@/store/store'
-import type { Category, CategoryCreateInput, CategoryUpdateInput } from '@/types/category'
-import { API_BASE_URL } from '@/lib/config'
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import type { RootState } from '@/store/store';
+import type { Category, CategoryCreateInput, CategoryUpdateInput } from '@/types/category';
+import { API_BASE_URL } from '@/lib/config';
 
 export const categoriesApi = createApi({
   reducerPath: 'categoriesApi',
   baseQuery: fetchBaseQuery({
     baseUrl: API_BASE_URL,
     prepareHeaders: (headers, { getState }) => {
-      const token = (getState() as RootState).auth.token
+      const token = (getState() as RootState).auth.token;
       if (token) {
-        headers.set('Authorization', `Bearer ${token}`)
+        headers.set('Authorization', `Bearer ${token}`);
       }
-      return headers
+      return headers;
     },
   }),
   tagTypes: ['Category'],
@@ -57,11 +57,11 @@ export const categoriesApi = createApi({
       ],
     }),
   }),
-})
+});
 
 export const {
   useListCategoriesQuery,
   useCreateCategoryMutation,
   useUpdateCategoryMutation,
   useDeleteCategoryMutation,
-} = categoriesApi
+} = categoriesApi;

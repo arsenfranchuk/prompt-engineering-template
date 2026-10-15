@@ -1,13 +1,10 @@
-import { useState } from 'react'
-import {
-  useListCategoriesQuery,
-  useDeleteCategoryMutation,
-} from '@/store/api/categoriesApi'
-import type { Category, CategoryType } from '@/types/category'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Card, CardContent } from '@/components/ui/card'
-import { CategoryDialog } from './CategoryDialog'
+import { useState } from 'react';
+import { useListCategoriesQuery, useDeleteCategoryMutation } from '@/store/api/categoriesApi';
+import type { Category, CategoryType } from '@/types/category';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Card, CardContent } from '@/components/ui/card';
+import { CategoryDialog } from './CategoryDialog';
 import {
   Plus,
   Search,
@@ -18,48 +15,48 @@ import {
   Loader2,
   TrendingDown,
   TrendingUp,
-} from 'lucide-react'
-import { cn } from '@/lib/utils'
+} from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 export function CategoriesPage() {
-  const [typeFilter, setTypeFilter] = useState<'all' | CategoryType>('all')
-  const [search, setSearch] = useState('')
-  const [dialogOpen, setDialogOpen] = useState(false)
-  const [editingCategory, setEditingCategory] = useState<Category | null>(null)
-  const [confirmDelete, setConfirmDelete] = useState<Category | null>(null)
-  const [deleteError, setDeleteError] = useState<string | null>(null)
+  const [typeFilter, setTypeFilter] = useState<'all' | CategoryType>('all');
+  const [search, setSearch] = useState('');
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [editingCategory, setEditingCategory] = useState<Category | null>(null);
+  const [confirmDelete, setConfirmDelete] = useState<Category | null>(null);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
 
-  const { data: categories = [], isLoading, isError } = useListCategoriesQuery()
-  const [deleteCategory, { isLoading: isDeleting }] = useDeleteCategoryMutation()
+  const { data: categories = [], isLoading, isError } = useListCategoriesQuery();
+  const [deleteCategory, { isLoading: isDeleting }] = useDeleteCategoryMutation();
 
   const handleOpenCreate = () => {
-    setEditingCategory(null)
-    setDialogOpen(true)
-  }
+    setEditingCategory(null);
+    setDialogOpen(true);
+  };
 
   const handleOpenEdit = (cat: Category) => {
-    setEditingCategory(cat)
-    setDialogOpen(true)
-  }
+    setEditingCategory(cat);
+    setDialogOpen(true);
+  };
 
   const handleDelete = async (cat: Category) => {
-    setDeleteError(null)
+    setDeleteError(null);
     try {
-      await deleteCategory(cat.id).unwrap()
-      setConfirmDelete(null)
+      await deleteCategory(cat.id).unwrap();
+      setConfirmDelete(null);
     } catch (err: any) {
-      setDeleteError(err?.data?.detail ?? 'Failed to delete category. It may be in use.')
+      setDeleteError(err?.data?.detail ?? 'Failed to delete category. It may be in use.');
     }
-  }
+  };
 
   const filtered = categories.filter((cat) => {
-    if (typeFilter !== 'all' && cat.type !== typeFilter) return false
-    if (search.trim() && !cat.name.toLowerCase().includes(search.toLowerCase())) return false
-    return true
-  })
+    if (typeFilter !== 'all' && cat.type !== typeFilter) return false;
+    if (search.trim() && !cat.name.toLowerCase().includes(search.toLowerCase())) return false;
+    return true;
+  });
 
-  const expenseCategories = filtered.filter((c) => c.type === 'expense')
-  const incomeCategories = filtered.filter((c) => c.type === 'income')
+  const expenseCategories = filtered.filter((c) => c.type === 'expense');
+  const incomeCategories = filtered.filter((c) => c.type === 'income');
 
   return (
     <div className="p-4 md:p-6 space-y-6 max-w-6xl mx-auto">
@@ -98,7 +95,7 @@ export function CategoriesPage() {
                 'px-3.5 py-1.5 rounded-lg text-sm font-medium transition-colors capitalize',
                 typeFilter === t
                   ? 'bg-emerald-500 text-white shadow-sm'
-                  : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50',
+                  : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50'
               )}
             >
               {t === 'all' ? 'All Categories' : `${t}s`}
@@ -133,12 +130,7 @@ export function CategoriesPage() {
             {search ? 'Try adjusting your search criteria.' : 'Create a category to get started.'}
           </p>
           {!search && (
-            <Button
-              onClick={handleOpenCreate}
-              variant="outline"
-              size="sm"
-              className="mt-4"
-            >
+            <Button onClick={handleOpenCreate} variant="outline" size="sm" className="mt-4">
               <Plus className="w-4 h-4 mr-1" /> Add Category
             </Button>
           )}
@@ -197,7 +189,8 @@ export function CategoriesPage() {
           <div className="bg-white rounded-xl shadow-xl max-w-md w-full p-6 space-y-4">
             <h3 className="text-lg font-bold text-slate-800">Delete Category</h3>
             <p className="text-sm text-slate-600">
-              Are you sure you want to delete <span className="font-semibold text-slate-900">"{confirmDelete.name}"</span>?
+              Are you sure you want to delete{' '}
+              <span className="font-semibold text-slate-900">"{confirmDelete.name}"</span>?
             </p>
             <p className="text-xs text-amber-600 bg-amber-50 p-2.5 rounded-lg border border-amber-200">
               Note: Categories associated with existing transactions or budgets cannot be deleted.
@@ -225,13 +218,9 @@ export function CategoriesPage() {
       )}
 
       {/* Dialog for create / edit */}
-      <CategoryDialog
-        open={dialogOpen}
-        onOpenChange={setDialogOpen}
-        category={editingCategory}
-      />
+      <CategoryDialog open={dialogOpen} onOpenChange={setDialogOpen} category={editingCategory} />
     </div>
-  )
+  );
 }
 
 function CategoryCard({
@@ -239,9 +228,9 @@ function CategoryCard({
   onEdit,
   onDelete,
 }: {
-  category: Category
-  onEdit: () => void
-  onDelete: () => void
+  category: Category;
+  onEdit: () => void;
+  onDelete: () => void;
 }) {
   return (
     <Card className="hover:shadow-sm transition-shadow">
@@ -286,5 +275,5 @@ function CategoryCard({
         </div>
       </CardContent>
     </Card>
-  )
+  );
 }

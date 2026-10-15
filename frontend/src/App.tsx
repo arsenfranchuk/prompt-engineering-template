@@ -1,14 +1,14 @@
-import { Routes, Route, Navigate } from 'react-router-dom'
-import { LoginPage } from '@/features/auth/LoginPage'
-import { RegisterPage } from '@/features/auth/RegisterPage'
-import { ProtectedRoute } from '@/features/auth/ProtectedRoute'
-import { AppLayout } from '@/components/AppLayout'
-import { DashboardPage } from '@/features/dashboard/DashboardPage'
-import { TransactionsPage } from '@/features/transactions/TransactionsPage'
-import { BudgetsPage } from '@/features/budgets/BudgetsPage'
-import { CategoriesPage } from '@/features/categories/CategoriesPage'
-import { StatisticsPage } from '@/features/statistics/StatisticsPage'
-import { ProfilePage } from '@/features/profile/ProfilePage'
+import { Routes, Route, Navigate } from 'react-router-dom';
+import { LoginPage } from '@/features/auth/LoginPage';
+import { RegisterPage } from '@/features/auth/RegisterPage';
+import { ProtectedRoute } from '@/features/auth/ProtectedRoute';
+import { AppLayout } from '@/components/AppLayout';
+import { DashboardPage } from '@/features/dashboard/DashboardPage';
+import { TransactionsPage } from '@/features/transactions/TransactionsPage';
+import { BudgetsPage } from '@/features/budgets/BudgetsPage';
+import { CategoriesPage } from '@/features/categories/CategoriesPage';
+import { StatisticsPage } from '@/features/statistics/StatisticsPage';
+import { ProfilePage } from '@/features/profile/ProfilePage';
 
 function App() {
   return (
@@ -38,7 +38,7 @@ function App() {
       <Route path="/" element={<Navigate to="/dashboard" replace />} />
       <Route path="*" element={<Navigate to="/dashboard" replace />} />
     </Routes>
-  )
+  );
 }
 
-export default App
+export default App;

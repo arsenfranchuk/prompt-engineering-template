@@ -1,60 +1,62 @@
-import { useState, useEffect } from 'react'
-import {
-  useCreateCategoryMutation,
-  useUpdateCategoryMutation,
-} from '@/store/api/categoriesApi'
-import type { Category, CategoryType } from '@/types/category'
-import { Button } from '@/components/ui/button'
+import { useState, useEffect } from 'react';
+import { useCreateCategoryMutation, useUpdateCategoryMutation } from '@/store/api/categoriesApi';
+import { dashboardApi } from '@/store/api/dashboardApi';
+import { budgetsApi } from '@/store/api/budgetsApi';
+import { transactionsApi } from '@/store/api/transactionsApi';
+import { useAppDispatch } from '@/store/hooks';
+import type { Category, CategoryType } from '@/types/category';
+import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogFooter,
-} from '@/components/ui/dialog'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { AlertCircle, Loader2 } from 'lucide-react'
+} from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { AlertCircle, Loader2 } from 'lucide-react';
 
 interface CategoryDialogProps {
-  open: boolean
-  onOpenChange: (open: boolean) => void
-  category?: Category | null
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  category?: Category | null;
 }
 
 export function CategoryDialog({ open, onOpenChange, category }: CategoryDialogProps) {
-  const isEditing = !!category
+  const dispatch = useAppDispatch();
+  const isEditing = !!category;
 
-  const [name, setName] = useState('')
-  const [type, setType] = useState<CategoryType>('expense')
-  const [error, setError] = useState<string | null>(null)
+  const [name, setName] = useState('');
+  const [type, setType] = useState<CategoryType>('expense');
+  const [error, setError] = useState<string | null>(null);
 
-  const [createCategory, { isLoading: isCreating }] = useCreateCategoryMutation()
-  const [updateCategory, { isLoading: isUpdating }] = useUpdateCategoryMutation()
+  const [createCategory, { isLoading: isCreating }] = useCreateCategoryMutation();
+  const [updateCategory, { isLoading: isUpdating }] = useUpdateCategoryMutation();
 
-  const isSubmitting = isCreating || isUpdating
+  const isSubmitting = isCreating || isUpdating;
 
   useEffect(() => {
     if (open) {
       if (category) {
-        setName(category.name)
-        setType(category.type)
+        setName(category.name);
+        setType(category.type);
       } else {
-        setName('')
-        setType('expense')
+        setName('');
+        setType('expense');
       }
-      setError(null)
+      setError(null);
     }
-  }, [open, category])
+  }, [open, category]);
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setError(null)
+    e.preventDefault();
+    setError(null);
 
-    const trimmed = name.trim()
+    const trimmed = name.trim();
     if (!trimmed) {
-      setError('Category name is required')
-      return
+      setError('Category name is required');
+      return;
     }
 
     try {
@@ -62,26 +64,27 @@ export function CategoryDialog({ open, onOpenChange, category }: CategoryDialogP
         await updateCategory({
           id: category.id,
           body: { name: trimmed },
-        }).unwrap()
+        }).unwrap();
       } else {
         await createCategory({
           name: trimmed,
           type,
-        }).unwrap()
+        }).unwrap();
       }
-      onOpenChange(false)
+      dispatch(dashboardApi.util.invalidateTags(['Dashboard']));
+      dispatch(budgetsApi.util.invalidateTags([{ type: 'Budget', id: 'LIST' }]));
+      dispatch(transactionsApi.util.invalidateTags([{ type: 'Transaction', id: 'LIST' }]));
+      onOpenChange(false);
     } catch (err: any) {
-      setError(err?.data?.detail ?? 'Failed to save category. Please try again.')
+      setError(err?.data?.detail ?? 'Failed to save category. Please try again.');
     }
-  }
+  };
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>
-            {isEditing ? 'Edit Category' : 'Create New Category'}
-          </DialogTitle>
+          <DialogTitle>{isEditing ? 'Edit Category' : 'Create New Category'}</DialogTitle>
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-4 py-2">
@@ -166,5 +169,5 @@ export function CategoryDialog({ open, onOpenChange, category }: CategoryDialogP
         </form>
       </DialogContent>
     </Dialog>
-  )
+  );
 }

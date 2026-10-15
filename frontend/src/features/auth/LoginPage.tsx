@@ -1,44 +1,51 @@
-import { useState } from 'react'
-import { useNavigate, Link } from 'react-router-dom'
-import { useLoginMutation } from '@/store/api/authApi'
-import { setCredentials } from '@/store/slices/authSlice'
-import { useAppDispatch } from '@/store/hooks'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
-import { AlertCircle, TrendingUp } from 'lucide-react'
+import { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
+import { useLoginMutation } from '@/store/api/authApi';
+import { setCredentials } from '@/store/slices/authSlice';
+import { useAppDispatch } from '@/store/hooks';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import { AlertCircle, TrendingUp } from 'lucide-react';
 
 export function LoginPage() {
-  const dispatch = useAppDispatch()
-  const navigate = useNavigate()
-  const [login, { isLoading }] = useLoginMutation()
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const [login, { isLoading }] = useLoginMutation();
 
-  const [identifier, setIdentifier] = useState('')
-  const [password, setPassword] = useState('')
-  const [error, setError] = useState<string | null>(null)
+  const [identifier, setIdentifier] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setError(null)
+    e.preventDefault();
+    setError(null);
 
     if (!identifier.trim()) {
-      setError('Username or email is required')
-      return
+      setError('Username or email is required');
+      return;
     }
     if (!password) {
-      setError('Password is required')
-      return
+      setError('Password is required');
+      return;
     }
 
     try {
-      const result = await login({ identifier: identifier.trim(), password }).unwrap()
-      dispatch(setCredentials({ token: result.token, user: result.user }))
-      navigate('/dashboard')
+      const result = await login({ identifier: identifier.trim(), password }).unwrap();
+      dispatch(setCredentials({ token: result.token, user: result.user }));
+      navigate('/dashboard');
     } catch (err: any) {
-      setError(err?.data?.detail ?? 'Login failed. Please check your credentials.')
+      setError(err?.data?.detail ?? 'Login failed. Please check your credentials.');
     }
-  }
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100 p-4">
@@ -103,5 +110,5 @@ export function LoginPage() {
         </Card>
       </div>
     </div>
-  )
+  );
 }

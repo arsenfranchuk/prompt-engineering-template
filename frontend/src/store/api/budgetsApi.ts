@@ -1,18 +1,18 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import type { RootState } from '@/store/store'
-import type { Budget, BudgetCreateInput, BudgetUpdateInput } from '@/types/budget'
-import { API_BASE_URL } from '@/lib/config'
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import type { RootState } from '@/store/store';
+import type { Budget, BudgetCreateInput, BudgetUpdateInput } from '@/types/budget';
+import { API_BASE_URL } from '@/lib/config';
 
 export const budgetsApi = createApi({
   reducerPath: 'budgetsApi',
   baseQuery: fetchBaseQuery({
     baseUrl: API_BASE_URL,
     prepareHeaders: (headers, { getState }) => {
-      const token = (getState() as RootState).auth.token
+      const token = (getState() as RootState).auth.token;
       if (token) {
-        headers.set('Authorization', `Bearer ${token}`)
+        headers.set('Authorization', `Bearer ${token}`);
       }
-      return headers
+      return headers;
     },
   }),
   tagTypes: ['Budget'],
@@ -57,11 +57,11 @@ export const budgetsApi = createApi({
       ],
     }),
   }),
-})
+});
 
 export const {
   useListBudgetsQuery,
   useCreateBudgetMutation,
   useUpdateBudgetMutation,
   useDeleteBudgetMutation,
-} = budgetsApi
+} = budgetsApi;

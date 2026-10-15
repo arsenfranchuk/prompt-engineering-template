@@ -1,22 +1,23 @@
-import { NavLink, Outlet, useNavigate } from 'react-router-dom'
-import { useEffect, useState } from 'react'
-import { useLogoutMutation, useGetMeQuery } from '@/store/api/authApi'
-import { clearCredentials, setUser } from '@/store/slices/authSlice'
-import { useAppDispatch, useAppSelector } from '@/store/hooks'
+import { NavLink, Outlet, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useLogoutMutation, useGetMeQuery } from '@/store/api/authApi';
+import { clearCredentials, setUser } from '@/store/slices/authSlice';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import {
   LayoutDashboard,
   ArrowRightLeft,
   Target,
   Tag,
   BarChart2,
-  User,
+  User as UserIcon,
   TrendingUp,
   LogOut,
   Menu,
   X,
-} from 'lucide-react'
-import { Button } from '@/components/ui/button'
-import { cn } from '@/lib/utils'
+} from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
+import type { User } from '@/types/auth';
 
 const NAV_ITEMS = [
   { to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
@@ -24,31 +25,17 @@ const NAV_ITEMS = [
   { to: '/budgets', label: 'Budgets', icon: Target },
   { to: '/categories', label: 'Categories', icon: Tag },
   { to: '/statistics', label: 'Statistics', icon: BarChart2 },
-  { to: '/profile', label: 'Profile', icon: User },
-]
+  { to: '/profile', label: 'Profile', icon: UserIcon },
+];
 
-export function AppLayout() {
-  const dispatch = useAppDispatch()
-  const navigate = useNavigate()
-  const [logout] = useLogoutMutation()
-  const user = useAppSelector((s) => s.auth.user)
-  const [mobileOpen, setMobileOpen] = useState(false)
+interface SidebarNavContentProps {
+  user: User | null;
+  onLogout: () => void;
+  onNavigate: () => void;
+}
 
-  const { data: meData } = useGetMeQuery()
-  useEffect(() => {
-    if (meData) dispatch(setUser(meData))
-  }, [meData, dispatch])
-
-  const handleLogout = async () => {
-    try {
-      await logout().unwrap()
-    } finally {
-      dispatch(clearCredentials())
-      navigate('/login')
-    }
-  }
-
-  const NavContent = () => (
+function SidebarNavContent({ user, onLogout, onNavigate }: SidebarNavContentProps) {
+  return (
     <>
       <div className="flex items-center gap-2 px-4 py-5 border-b border-slate-200">
         <div className="w-8 h-8 bg-emerald-500 rounded-lg flex items-center justify-center">
@@ -62,13 +49,13 @@ export function AppLayout() {
           <NavLink
             key={to}
             to={to}
-            onClick={() => setMobileOpen(false)}
+            onClick={onNavigate}
             className={({ isActive }) =>
               cn(
                 'flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors',
                 isActive
                   ? 'bg-emerald-50 text-emerald-700 font-semibold'
-                  : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900',
+                  : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
               )
             }
           >
@@ -84,7 +71,9 @@ export function AppLayout() {
             {user?.username?.[0]?.toUpperCase() ?? 'U'}
           </div>
           <div className="min-w-0">
-            <p className="text-sm font-medium text-slate-800 truncate">{user?.username ?? 'User'}</p>
+            <p className="text-sm font-medium text-slate-800 truncate">
+              {user?.username ?? 'User'}
+            </p>
             <p className="text-xs text-slate-500 truncate">{user?.email ?? ''}</p>
           </div>
         </div>
@@ -92,20 +81,53 @@ export function AppLayout() {
           variant="ghost"
           size="sm"
           className="w-full justify-start text-slate-600 hover:text-red-600 hover:bg-red-50"
-          onClick={handleLogout}
+          onClick={onLogout}
         >
           <LogOut className="w-4 h-4 mr-2" />
           Sign out
         </Button>
       </div>
     </>
-  )
+  );
+}
+
+export function AppLayout() {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const [logout] = useLogoutMutation();
+  const user = useAppSelector((s) => s.auth.user);
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  const { data: meData, error: meError } = useGetMeQuery();
+  useEffect(() => {
+    if (meData) dispatch(setUser(meData));
+  }, [meData, dispatch]);
+
+  useEffect(() => {
+    if (meError) {
+      dispatch(clearCredentials());
+      navigate('/login');
+    }
+  }, [meError, dispatch, navigate]);
+
+  const handleLogout = async () => {
+    try {
+      await logout().unwrap();
+    } finally {
+      dispatch(clearCredentials());
+      navigate('/login');
+    }
+  };
 
   return (
     <div className="flex h-screen bg-slate-50">
       {/* Desktop Sidebar */}
       <aside className="hidden md:flex flex-col w-60 bg-white border-r border-slate-200 shrink-0">
-        <NavContent />
+        <SidebarNavContent
+          user={user}
+          onLogout={handleLogout}
+          onNavigate={() => setMobileOpen(false)}
+        />
       </aside>
 
       {/* Mobile Sidebar */}
@@ -113,7 +135,11 @@ export function AppLayout() {
         <div className="fixed inset-0 z-40 md:hidden">
           <div className="fixed inset-0 bg-black/30" onClick={() => setMobileOpen(false)} />
           <aside className="fixed left-0 top-0 bottom-0 w-64 bg-white flex flex-col z-50 shadow-xl">
-            <NavContent />
+            <SidebarNavContent
+              user={user}
+              onLogout={handleLogout}
+              onNavigate={() => setMobileOpen(false)}
+            />
           </aside>
         </div>
       )}
@@ -123,11 +149,7 @@ export function AppLayout() {
         {/* Mobile Header */}
         <header className="md:hidden flex items-center justify-between px-4 py-3 bg-white border-b border-slate-200">
           <div className="flex items-center gap-2">
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => setMobileOpen(true)}
-            >
+            <Button variant="ghost" size="icon" onClick={() => setMobileOpen(true)}>
               {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </Button>
             <div className="flex items-center gap-2">
@@ -144,5 +166,5 @@ export function AppLayout() {
         </main>
       </div>
     </div>
-  )
+  );
 }

@@ -1,18 +1,22 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import type { RootState } from '@/store/store'
-import type { Transaction, TransactionCreateInput, TransactionUpdateInput } from '@/types/transaction'
-import { API_BASE_URL } from '@/lib/config'
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import type { RootState } from '@/store/store';
+import type {
+  Transaction,
+  TransactionCreateInput,
+  TransactionUpdateInput,
+} from '@/types/transaction';
+import { API_BASE_URL } from '@/lib/config';
 
 export const transactionsApi = createApi({
   reducerPath: 'transactionsApi',
   baseQuery: fetchBaseQuery({
     baseUrl: API_BASE_URL,
     prepareHeaders: (headers, { getState }) => {
-      const token = (getState() as RootState).auth.token
+      const token = (getState() as RootState).auth.token;
       if (token) {
-        headers.set('Authorization', `Bearer ${token}`)
+        headers.set('Authorization', `Bearer ${token}`);
       }
-      return headers
+      return headers;
     },
   }),
   tagTypes: ['Transaction'],
@@ -20,21 +24,21 @@ export const transactionsApi = createApi({
     listTransactions: builder.query<
       Transaction[],
       {
-        type?: string
-        category_id?: string
-        start_date?: string
-        end_date?: string
-        search?: string
-        sort_by?: string
-        sort_order?: string
+        type?: string;
+        category_id?: string;
+        start_date?: string;
+        end_date?: string;
+        search?: string;
+        sort_by?: string;
+        sort_order?: string;
       }
     >({
       query: (params = {}) => {
-        const search = new URLSearchParams()
+        const search = new URLSearchParams();
         Object.entries(params).forEach(([k, v]) => {
-          if (v !== undefined && v !== '') search.set(k, String(v))
-        })
-        return `/transactions?${search.toString()}`
+          if (v !== undefined && v !== '') search.set(k, String(v));
+        });
+        return `/transactions?${search.toString()}`;
       },
       providesTags: (result) =>
         result
@@ -52,10 +56,7 @@ export const transactionsApi = createApi({
       }),
       invalidatesTags: [{ type: 'Transaction', id: 'LIST' }],
     }),
-    updateTransaction: builder.mutation<
-      Transaction,
-      { id: string; body: TransactionUpdateInput }
-    >({
+    updateTransaction: builder.mutation<Transaction, { id: string; body: TransactionUpdateInput }>({
       query: ({ id, body }) => ({
         url: `/transactions/${id}`,
         method: 'PATCH',
@@ -77,11 +78,11 @@ export const transactionsApi = createApi({
       ],
     }),
   }),
-})
+});
 
 export const {
   useListTransactionsQuery,
   useCreateTransactionMutation,
   useUpdateTransactionMutation,
   useDeleteTransactionMutation,
-} = transactionsApi
+} = transactionsApi;

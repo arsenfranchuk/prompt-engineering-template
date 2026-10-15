@@ -1,11 +1,11 @@
-import { configureStore } from '@reduxjs/toolkit'
+import { configureStore } from '@reduxjs/toolkit';
 
-import { authApi } from '@/store/api/authApi'
-import { budgetsApi } from '@/store/api/budgetsApi'
-import { categoriesApi } from '@/store/api/categoriesApi'
-import { dashboardApi } from '@/store/api/dashboardApi'
-import { transactionsApi } from '@/store/api/transactionsApi'
-import authReducer from '@/store/slices/authSlice'
+import { authApi } from '@/store/api/authApi';
+import { budgetsApi } from '@/store/api/budgetsApi';
+import { categoriesApi } from '@/store/api/categoriesApi';
+import { dashboardApi } from '@/store/api/dashboardApi';
+import { transactionsApi } from '@/store/api/transactionsApi';
+import authReducer from '@/store/slices/authSlice';
 
 export const store = configureStore({
   reducer: {
@@ -22,9 +22,9 @@ export const store = configureStore({
       categoriesApi.middleware,
       transactionsApi.middleware,
       budgetsApi.middleware,
-      dashboardApi.middleware,
+      dashboardApi.middleware
     ),
-})
+});
 
-export type RootState = ReturnType<typeof store.getState>
-export type AppDispatch = typeof store.dispatch
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
