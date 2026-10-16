@@ -1,0 +1,62 @@
+{
+  "version": "1.0",
+  "name": "project-quality-config",
+  "description": "Declarative safety guards, path filters, and verification pipelines for the project",
+  "guards": {
+    "protected_files": [
+      "backend/data/*.json",
+      "package-lock.json",
+      "uv.lock"
+    ],
+    "prohibited_actions": [
+      "hardcoded_credentials",
+      "direct_db_store_edits_without_service_layer",
+      "bypassing_auth_in_endpoints"
+    ]
+  },
+  "subsystems": {
+    "backend": {
+      "path_filters": ["backend/**/*"],
+      "working_directory": "backend",
+      "format_check": "uv run ruff format --check .",
+      "format_fix": "uv run ruff format .",
+      "lint": "uv run ruff check .",
+      "lint_fix": "uv run ruff check --fix .",
+      "typecheck": "uv run mypy app",
+      "test": "uv run pytest"
+    },
+    "frontend": {
+      "path_filters": ["frontend/**/*"],
+      "working_directory": "frontend",
+      "format_check": "npm run format:check",
+      "format_fix": "npm run format",
+      "lint": "npm run lint",
+      "typecheck": "npm run typecheck",
+      "build": "npm run build"
+    }
+  },
+  "verification_pipeline": [
+    {
+      "name": "Backend Verification",
+      "path_filters": ["backend/**/*"],
+      "working_directory": "backend",
+      "commands": [
+        "uv run ruff check .",
+        "uv run ruff format --check .",
+        "uv run mypy app",
+        "uv run pytest"
+      ]
+    },
+    {
+      "name": "Frontend Verification",
+      "path_filters": ["frontend/**/*"],
+      "working_directory": "frontend",
+      "commands": [
+        "npm run lint",
+        "npm run format:check",
+        "npm run typecheck",
+        "npm run build"
+      ]
+    }
+  ]
+}

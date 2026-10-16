@@ -44,22 +44,27 @@ VS Code: `.vscode/launch.json` starts the backend; `.vscode/tasks.json` installs
   - Backend path filter (`backend/**/*`): automatically applies backend rules, skills, and quality hooks.
   - Frontend path filter (`frontend/**/*`): automatically applies frontend rules, skills, and quality hooks.
 - **Rules**:
-  - Backend Rules (Path Filter: `backend/**/*`):
-    - [`.agents/rules/backend/architecture-and-layering.md`](./.agents/rules/backend/architecture-and-layering.md) — 5-layer architecture, Pydantic v2, data store covariance.
-    - [`.agents/rules/backend/security-and-multitenancy.md`](./.agents/rules/backend/security-and-multitenancy.md) — JWT auth, user isolation, data scoping.
-    - [`.agents/rules/backend/code-quality-and-testing.md`](./.agents/rules/backend/code-quality-and-testing.md) — Ruff, Mypy, Pytest isolated fixtures.
-    - [`backend/AGENTS.md`](./backend/AGENTS.md) — Local backend rules summary.
-  - Frontend Rules (Path Filter: `frontend/**/*`):
-    - [`.agents/rules/frontend/architecture-and-components.md`](./.agents/rules/frontend/architecture-and-components.md) — Feature-first layout, shadcn/ui, TypeScript.
-    - [`.agents/rules/frontend/state-and-rtk-query.md`](./.agents/rules/frontend/state-and-rtk-query.md) — RTK Query cache tags, mutations, Redux slices.
-    - [`.agents/rules/frontend/code-quality-and-formatting.md`](./.agents/rules/frontend/code-quality-and-formatting.md) — Prettier, Oxlint, strict typecheck.
-    - [`frontend/AGENTS.md`](./frontend/AGENTS.md) — Local frontend rules summary.
-  - Editor Rules & MDC:
-    - [`.cursorrules`](./.cursorrules) — Integrated rule-set with path filters for Cursor.
-    - [`.cursor/rules/backend.mdc`](./.cursor/rules/backend.mdc) — Backend rule with glob filter `backend/**/*`.
-    - [`.cursor/rules/frontend.mdc`](./.cursor/rules/frontend.mdc) — Frontend rule with glob filter `frontend/**/*`.
+  - Backend Rules (`.agents/rules/`):
+    - [`.agents/rules/backend-architecture.md`](./.agents/rules/backend-architecture.md) — 5-layer architecture, Pydantic v2, data store covariance.
+    - [`.agents/rules/backend-security-and-data.md`](./.agents/rules/backend-security-and-data.md) — JWT auth, user isolation, data scoping.
+    - [`.agents/rules/backend-coding-standards.md`](./.agents/rules/backend-coding-standards.md) — Ruff, Mypy, Pytest isolated fixtures.
+  - Frontend Rules (`.agents/rules/`):
+    - [`.agents/rules/frontend-architecture.md`](./.agents/rules/frontend-architecture.md) — Feature-first layout, shadcn/ui, TypeScript.
+    - [`.agents/rules/frontend-security-and-data.md`](./.agents/rules/frontend-security-and-data.md) — RTK Query cache tags, mutations, Redux slices.
+    - [`.agents/rules/frontend-coding-standards.md`](./.agents/rules/frontend-coding-standards.md) — Prettier, Oxlint, strict typecheck.
+  - Shared Rules:
+    - [`.agents/rules/shared-rules.md`](./.agents/rules/shared-rules.md) — Cross-cutting standards, zero-defect policy, docs.
 - **Skills**:
-  - Backend (`backend/**/*`): [`.agents/skills/backend-development/SKILL.md`](./.agents/skills/backend-development/SKILL.md)
-  - Frontend (`frontend/**/*`): [`.agents/skills/frontend-development/SKILL.md`](./.agents/skills/frontend-development/SKILL.md)
+  - Backend:
+    - [`.agents/skills/backend-add-budget-feature/SKILL.md`](./.agents/skills/backend-add-budget-feature/SKILL.md)
+    - [`.agents/skills/backend-run-budget/SKILL.md`](./.agents/skills/backend-run-budget/SKILL.md)
+    - [`.agents/skills/backend-test-budget/SKILL.md`](./.agents/skills/backend-test-budget/SKILL.md)
+  - Frontend:
+    - [`.agents/skills/frontend-add-budget-feature/SKILL.md`](./.agents/skills/frontend-add-budget-feature/SKILL.md)
+    - [`.agents/skills/frontend-run-budget/SKILL.md`](./.agents/skills/frontend-run-budget/SKILL.md)
+    - [`.agents/skills/frontend-test-budget/SKILL.md`](./.agents/skills/frontend-test-budget/SKILL.md)
 - **Hooks**:
-  - Configuration: [`.agents/hooks.json`](./.agents/hooks.json) — Safety guards, `path_filters`, and linting/typechecking verification.
+  - Configuration: [`.agents/hooks.json`](./.agents/hooks.json) — Safety guards, post-tool audits, architecture reminders.
+  - Scripts (`.agents/hooks/`):
+    - [`backend_safety_guard.py`](./.agents/hooks/backend_safety_guard.py), [`backend_post_tool_audit.py`](./.agents/hooks/backend_post_tool_audit.py), [`backend_architecture_reminder.py`](./.agents/hooks/backend_architecture_reminder.py)
+    - [`frontend_safety_guard.py`](./.agents/hooks/frontend_safety_guard.py), [`frontend_post_tool_audit.py`](./.agents/hooks/frontend_post_tool_audit.py), [`frontend_architecture_reminder.py`](./.agents/hooks/frontend_architecture_reminder.py)

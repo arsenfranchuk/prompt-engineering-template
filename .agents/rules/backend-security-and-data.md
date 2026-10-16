@@ -4,7 +4,7 @@ trigger: glob
 globs: "backend/**/*"
 ---
 
-# Backend Security & Multi-Tenancy Rules
+# Backend Security & Data Rules
 
 These rules govern identity verification, data isolation, and access control on the backend.
 

@@ -4,7 +4,7 @@ trigger: glob
 globs: "backend/**/*"
 ---
 
-# Backend Architecture & Layering Rules
+# Backend Architecture Rules
 
 These rules govern the architectural layout and dependency boundaries of the FastAPI backend in `backend/`.
 
@@ -43,4 +43,4 @@ Backend code must strictly adhere to the following layers without skipping or le
 ## 2. Financial Computations & Integrity
 - **Positive Amounts**: Transaction amounts and budget planned amounts must strictly be positive (`amount > 0`).
 - **Precision**: Round all financial amounts and balances to 2 decimal places (`round(amount, 2)`).
-- **Safe Category Deletion**: Categories cannot be deleted if referenced by active transactions or budgets. The service must raise `CategoryInUseError`.
+- **Safe Category Deletion**: Categories cannot be deleted if referenced by active transactions or budgets.

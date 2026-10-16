@@ -4,9 +4,9 @@ trigger: glob
 globs: "frontend/**/*"
 ---
 
-# Frontend State Management & RTK Query Rules
+# Frontend Security & Data Rules
 
-These rules govern remote API caching, local UI state, and mutations on the React frontend.
+These rules govern remote API caching, local UI state, data security, and mutations on the React frontend.
 
 ## 1. Remote Server State (RTK Query)
 - All network requests to the backend must be made through RTK Query API slices under `src/store/api/`.
@@ -19,8 +19,9 @@ These rules govern remote API caching, local UI state, and mutations on the Reac
 - Mutations must declare `invalidatesTags` so that related queries re-fetch automatically upon data updates.
 - All views must handle `isLoading`, `isFetching`, and `error` states gracefully with loaders and error messages.
 
-## 2. Client UI State (Redux Slices)
+## 2. Client UI State & Security
 - Client-only state (e.g., auth tokens in local memory, active filters, UI preferences) lives in `src/store/slices/`.
+- Never store sensitive credentials, plaintext passwords, or raw secrets in client-side code.
 - Always use the typed custom hooks from `src/store/hooks.ts`:
   - `useAppDispatch()`
   - `useAppSelector()`

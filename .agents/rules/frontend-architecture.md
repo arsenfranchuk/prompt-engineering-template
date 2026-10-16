@@ -4,7 +4,7 @@ trigger: glob
 globs: "frontend/**/*"
 ---
 
-# Frontend Architecture & Components Rules
+# Frontend Architecture Rules
 
 These rules govern directory organization, component design, and styling on the React frontend.
 
@@ -26,7 +26,7 @@ All feature-specific code must reside within `src/features/<feature>/`:
 ## 3. Strict Type Safety & Naming
 - Never use `any`. Always define strict interfaces in `src/types/`.
 - Frontend interfaces must stay in sync with backend Pydantic models.
-- When icon names collide with data model names (e.g., `User` icon from `lucide-react` vs `User` entity from `@/types/auth`), always alias the icon (e.g. `User as UserIcon`).
+- When icon names collide with data model names, always alias the icon (e.g. `User as UserIcon`).
 
 ## 4. UI/UX Design Standards
 - **Color Semantics**:

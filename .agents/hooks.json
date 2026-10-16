@@ -1,60 +1,88 @@
 {
-  "version": "1.0",
-  "name": "project-quality-hooks",
-  "description": "Safety guards, linting, formatting, and type-checking verification hooks",
-  "guards": {
-    "protected_files": [
-      "backend/data/*.json",
-      "package-lock.json",
-      "uv.lock"
-    ],
-    "prohibited_actions": [
-      "hardcoded_credentials",
-      "direct_db_store_edits_without_service_layer",
-      "bypassing_auth_in_endpoints"
+  "backend-safety-guard": {
+    "enabled": true,
+    "path_filters": ["backend/**/*"],
+    "PreToolUse": [
+      {
+        "matcher": "run_command|write_to_file|replace_file_content",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "py hooks/backend_safety_guard.py",
+            "timeout": 15
+          }
+        ]
+      }
     ]
   },
-  "hooks": {
-    "backend": {
-      "path_filters": ["backend/**/*"],
-      "format_check": "uv run ruff format --check .",
-      "format_fix": "uv run ruff format .",
-      "lint": "uv run ruff check .",
-      "lint_fix": "uv run ruff check --fix .",
-      "typecheck": "uv run mypy app",
-      "test": "uv run pytest"
-    },
-    "frontend": {
-      "path_filters": ["frontend/**/*"],
-      "format_check": "npm run format:check",
-      "format_fix": "npm run format",
-      "lint": "npm run lint",
-      "typecheck": "npm run typecheck",
-      "build": "npm run build"
-    }
+  "frontend-safety-guard": {
+    "enabled": true,
+    "path_filters": ["frontend/**/*"],
+    "PreToolUse": [
+      {
+        "matcher": "run_command|write_to_file|replace_file_content",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "py hooks/frontend_safety_guard.py",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
   },
-  "verification_pipeline": [
-    {
-      "name": "Backend Verification",
-      "path_filters": ["backend/**/*"],
-      "working_directory": "backend",
-      "commands": [
-        "uv run ruff check .",
-        "uv run ruff format --check .",
-        "uv run mypy app",
-        "uv run pytest"
-      ]
-    },
-    {
-      "name": "Frontend Verification",
-      "path_filters": ["frontend/**/*"],
-      "working_directory": "frontend",
-      "commands": [
-        "npm run lint",
-        "npm run format:check",
-        "npm run typecheck",
-        "npm run build"
-      ]
-    }
-  ]
+  "backend-post-tool-audit": {
+    "enabled": true,
+    "path_filters": ["backend/**/*"],
+    "PostToolUse": [
+      {
+        "matcher": "write_to_file|replace_file_content",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "py hooks/backend_post_tool_audit.py",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  },
+  "frontend-post-tool-audit": {
+    "enabled": true,
+    "path_filters": ["frontend/**/*"],
+    "PostToolUse": [
+      {
+        "matcher": "write_to_file|replace_file_content",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "py hooks/frontend_post_tool_audit.py",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  },
+  "backend-architecture-reminder": {
+    "enabled": true,
+    "path_filters": ["backend/**/*"],
+    "PreInvocation": [
+      {
+        "type": "command",
+        "command": "py hooks/backend_architecture_reminder.py",
+        "timeout": 10
+      }
+    ]
+  },
+  "frontend-architecture-reminder": {
+    "enabled": true,
+    "path_filters": ["frontend/**/*"],
+    "PreInvocation": [
+      {
+        "type": "command",
+        "command": "py hooks/frontend_architecture_reminder.py",
+        "timeout": 10
+      }
+    ]
+  }
 }

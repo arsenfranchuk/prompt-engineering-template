@@ -4,7 +4,7 @@ trigger: glob
 globs: "frontend/**/*"
 ---
 
-# Frontend Code Quality & Formatting Rules
+# Frontend Coding Standards & Formatting Rules
 
 These rules govern formatting, linting, typechecking, and production build verification for the frontend.
 
@@ -22,18 +22,15 @@ From the `frontend/` directory:
 2. **Formatter (Prettier)**:
    ```bash
    npm run format
-   # To verify without altering files:
    npm run format:check
    ```
 3. **Type Checker (TypeScript)**:
    ```bash
    npm run typecheck
-   # (Equivalent to npx tsc --noEmit)
    ```
 4. **Production Build**:
    ```bash
    npm run build
-   # (Runs tsc -b and vite build)
    ```
 
 ## 3. Formatting Standards
